@@ -35,7 +35,7 @@
   </style>
 </head>
 <body>
-  <h1>あいことばを答えてね（正解：開けゴマ）</h1>
+  <h1>あいことばを答えてね（正解：こんにちは）</h1>
   <div id="message">音声認識を待っています...</div>
   <div id="image-container">
     <img id="correct-image" src="image/correct.png" alt="せいかい">
@@ -68,7 +68,7 @@
       const spokenText = event.results[0][0].transcript; // 認識されたテキスト
       console.log('認識された内容:', spokenText);
 
-      if (spokenText.includes('開けごま')) {
+      if (spokenText.includes('こんにちは')) {
         message.textContent = 'せいかい！';
         correctImage.style.display = 'block';
         wrongImage.style.display = 'none';
