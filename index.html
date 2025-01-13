@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>声で動くアニメ</title>
+  <style>
+    #character {
+      width: 100px;
+      height: 100px;
+      background-color: yellow;
+      border-radius: 50%;
+      position: relative;
+    }
+    @keyframes jump {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-50px); }
+      100% { transform: translateY(0); }
+    }
+    @keyframes glow {
+      0% { background-color: yellow; }
+      50% { background-color: lightgreen; }
+      100% { background-color: yellow; }
+    }
+    @keyframes dance {
+      0% { transform: rotate(0); }
+      25% { transform: rotate(15deg); }
+      50% { transform: rotate(-15deg); }
+      100% { transform: rotate(0); }
+    }
+  </style>
+</head>
+<body>
+  <h1>声でキャラクターを動かそう！</h1>
+  <div id="character"></div>
+  <script>
+    // 音声認識の初期化
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'ja-JP'; // 日本語設定
+
+    const character = document.getElementById('character');
+
+    recognition.onresult = (event) => {
+      const spokenText = event.results[0][0].transcript; // 認識されたテキスト
+      console.log('認識された内容:', spokenText);
+
+      // キーワードごとの分岐処理
+      if (spokenText.includes('ジャンプ')) {
+        character.style.animation = 'jump 1s ease';
+      } else if (spokenText.includes('ピカピカ')) {
+        character.style.animation = 'glow 1.5s infinite';
+      } else if (spokenText.includes('踊って')) {
+        character.style.animation = 'dance 1s ease infinite';
+      } else {
+        console.log('該当するアクションが見つかりませんでした。');
+      }
+    };
+
+    recognition.onerror = (event) => {
+      console.error('エラーが発生しました:', event.error);
+    };
+
+    // 音声認識を開始
+    recognition.start();
+  </script>
+</body>
+</html>
